@@ -48,4 +48,13 @@ select first_name, ROUND(salary,2)from employees;
 select to_char(LAST_DAY(to_date('2098-02-01','YYYY-MM-DD')),'DD') ile_dni_luty from dual;
 --28
 select round(add_months(sysdate,148),'YEAR') from dual;
-
+--29
+select to_char(sysdate,'HH24:MM:SS') from dual;
+--29
+select to_char(sysdate+(to_date('2100-12-31','YYYY-MM-DD')-sysdate)/2,'YYYY-MM-DD') from dual;
+--30
+select MOD(11,2) from dual;
+--31a
+select department_id, max(salary) pensja from employees where department_id in ('50','80','60') group by department_id order by pensja desc;
+--31b
+select department_id, max(salary) pensja from employees  group by department_id  having department_id in ('50','80','60') order by pensja desc;
