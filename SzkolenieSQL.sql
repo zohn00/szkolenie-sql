@@ -54,7 +54,33 @@ select to_char(sysdate,'HH24:MM:SS') from dual;
 select to_char(sysdate+(to_date('2100-12-31','YYYY-MM-DD')-sysdate)/2,'YYYY-MM-DD') from dual;
 --30
 select MOD(11,2) from dual;
---31a
+--32a
 select department_id, max(salary) pensja from employees where department_id in ('50','80','60') group by department_id order by pensja desc;
---31b
+--32b
 select department_id, max(salary) pensja from employees  group by department_id  having department_id in ('50','80','60') order by pensja desc;
+--33
+select department_id, min(salary) from employees where lower(last_name) not like '%e%' group by department_id ;
+--34
+select manager_id, u.department_id, avg(salary) from employees u, (select department_id, count(*) liczba from employees group by department_id) e
+    where u.department_id=e.department_id    and e.liczba>1
+    group by u.department_id, u.manager_id order by u.department_id;
+--36
+select manager_id, u.department_id, avg(salary) from employees u
+    group by cube(u.department_id, u.manager_id) order by u.department_id;
+select * from employees where department_id is null order by salary desc;
+--37
+select * from locations;
+select * from departments;
+select * from countries;
+select * from regions;
+select region_name, country_name from regions natural join countries order by region_name ;
+--38
+select * from departments where department_id='250';
+
+select l.*, d.department_id from locations l , departments d where  l.location_id=d.location_id 
+order by d.department_id nulls last;
+
+select l.*, d.department_id from locations l left join departments d on l.location_id=d.location_id 
+order by d.department_id nulls last;
+
+select * from departments where location_id='1700';
