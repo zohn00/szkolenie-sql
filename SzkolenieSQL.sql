@@ -75,12 +75,25 @@ select * from countries;
 select * from regions;
 select region_name, country_name from regions natural join countries order by region_name ;
 --38
-select * from departments where department_id='250';
-
 select l.*, d.department_id from locations l , departments d where  l.location_id=d.location_id 
 order by d.department_id nulls last;
 
 select l.*, d.department_id from locations l left join departments d on l.location_id=d.location_id 
 order by d.department_id nulls last;
 
-select * from departments where location_id='1700';
+select * from departments ;
+
+--39
+select  round((select avg(salary) srednia from employees),2) sr, e.* from employees e where salary >(select avg(salary) srednia from employees);
+--40 
+select max(salary) -min(salary) roznica from employees e join departments d on e.department_id=d.department_id where d.department_name='Finance';
+--spr
+select min(salary) from employees where department_id='100';
+--41
+select * from employees where salary> any (select salary from employees join departments using (department_id) where department_name='Finance');
+select * from employees where salary>  (select min(salary) from employees join departments using (department_id) where department_name='Finance');
+--42
+select * from employees e where exists (select * from employees where manager_id=e.employee_id);
+--43
+SELECT * from employees;
+SELECT e.employee_id, e.manager_id , u.employee_id from employees e left join employees u on e.manager_id=u.employee_id;
