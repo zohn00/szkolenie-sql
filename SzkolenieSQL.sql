@@ -117,8 +117,31 @@ select e.last_name , r.region_name from employees e
     join countries c on l.country_id=c.country_id 
     join regions r on c.region_id=r.region_id
     ;
-    
-    
-    select * from countries;
-    select * from locations;
+--49    
+create or replace view empdep as 
+select d.department_name, e.* from employees e left join departments d on e.department_id=d.department_id;
+select * from empdep;
+--50
+create or replace view myregions as 
+select * from regions;
+select * from myregions;
+insert into myregions values (5, 'Galaxy');
+select * from regions;
+--51
+create sequence MySequence
+MINVALUE 1
+maxvalue 9999
+increment by 1
+start with 1;
+--54
+select MYSEQUENCE.currval from dual;
+select MYSEQUENCE.nextval from dual;
+drop sequence MYSEQUENCE;
+drop table mojatab;
+select * from mojatab;
+create table mojatab as select * from  myregions where 1=0;
+select * from myregions;
+select MySequence.nextval from dual;
+insert into myregions values (MySequence.nextval, 'Australia');
+
 
