@@ -241,4 +241,51 @@ end loop;
 end;
 /
 
+--63
+declare
+rZmienna employees%rowtype;
+begin
+select * into rZmienna from employees where employee_id='104';
+DBMS_OUTPUT.PUT_LINE('Imie: '||rZmienna.first_name||' , nazwisko: '||rZmienna.last_name);
+end;
+/
+--64
+declare
+type tabl is table of varchar(30) index by BINARY_INTEGER;
+tabMoja tabl;
+begin
+for i in 1..1000 loop
+    tabMoja(i):='Puste';
+end loop;
+
+DBMS_OUTPUT.PUT_LINE(tabMoja.count);
+end;
+/
+
+--65
+declare
+ileWierszy number;
+j number:=1;
+begin
+select count(*) into ileWierszy from employees;
+
+for i in 1..ileWierszy loop
+    DBMS_OUTPUT.PUT_LINE(i||' X');
+end loop;
+
+while j<=ileWierszy loop
+    DBMS_OUTPUT.PUT_LINE(j||' X WHILE');
+    j:=j+1;
+end loop;
+j:=1;
+loop
+   DBMS_OUTPUT.PUT_LINE(j||' X loop');
+   j:=j+1;
+   if j>ileWierszy then
+    exit;
+    end if;
+end loop;
+
+end;
+/
 
