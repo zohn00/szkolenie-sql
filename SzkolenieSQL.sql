@@ -143,5 +143,102 @@ create table mojatab as select * from  myregions where 1=0;
 select * from myregions;
 select MySequence.nextval from dual;
 insert into myregions values (MySequence.nextval, 'Australia');
+--55
+create or replace procedure mojaPierwszaPr (mojaLiczba number) is
+zmiennaTekstowa constant varchar2(50):='Damian';
+zmiennaLiczbowa number (5,2) :=0;
+zmiennaTekstowa2 varchar2(50);
+begin
+null;
+end
+;
+/
+--56
+declare
+type mojRekord is record (imie varchar2(50), nazwisko varchar2(50), numerTel varchar2(9));
+zmienna1 mojRekord;
+zmienna2 mojRekord;
+begin
+zmienna1.imie:='Damian';
+zmienna1.nazwisko:='Orzech';
+zmienna1.numerTel:='791044050';
+zmienna2.imie:='Kasia';
+zmienna2.nazwisko:='Orzech';
+zmienna2.numerTel:='600044050';
+
+dbms_output.put_line(zmienna1.imie);
+dbms_output.put_line(zmienna1.nazwisko);
+dbms_output.put_line(zmienna1.numerTel);
+
+dbms_output.put_line(zmienna2.imie);
+dbms_output.put_line(zmienna2.nazwisko);
+dbms_output.put_line(zmienna2.numerTel);
+end;
+/
+
+--57 i 58
+declare
+rEmp employees%rowtype;
+begin
+for i in 1..100 loop
+    dbms_output.put_line(i);
+end loop;
+end;
+/
+--59
+declare
+zmienna1 number(5,2);
+zmienna2 number(5,2);
+begin
+zmienna1:=65;
+zmienna2:=10;
+
+if zmienna1 <10 then
+    DBMS_OUTPUT.PUT_LINE('Zmienna 1: '||zmienna1);
+elsif zmienna1>=10 then
+    DBMS_OUTPUT.PUT_LINE('Zmienna 1 jest wieksza od 10, natomiast zmienna2 ma wartoœæ: '||zmienna2);
+end if;
+end;
+/
+--60
+declare
+type mojRek is record(imie varchar2(50),nazwisko varchar2(50), nrTel varchar2(9));
+zmienna1 mojRek; 
+zmienna2 mojRek;
+begin
+zmienna1.imie:='Damian';
+zmienna1.nazwisko:='Orzech';
+zmienna1.nrTel:='791044050';
+zmienna2:=zmienna1;
+
+dbms_output.put_line(zmienna2.imie);
+dbms_output.put_line(zmienna2.nazwisko);
+dbms_output.put_line(zmienna2.nrTel);
+end;
+/
+select * from regions;
+--61
+declare 
+type rRegion1 is record (region_id regions.region_id%type,region_name regions.region_name%type);
+zmienna1 rRegion1;
+zmienna2 regions%rowtype;
+begin
+zmienna1.region_id:=1;
+zmienna1.region_name:='Europe';
+zmienna2:=zmienna1;
+
+DBMS_OUTPUT.PUT_LINE(zmienna2.region_id||' '||zmienna2.region_name);
+end;
+/
+
+--62
+begin
+for i in 1..500 loop
+    if mod(i,2)=0 then
+        DBMS_OUTPUT.PUT_LINE(i);
+    end if;
+end loop;
+end;
+/
 
 
