@@ -96,4 +96,29 @@ select * from employees where salary>  (select min(salary) from employees join d
 select * from employees e where exists (select * from employees where manager_id=e.employee_id);
 --43
 SELECT * from employees;
-SELECT e.employee_id, e.manager_id , u.employee_id from employees e left join employees u on e.manager_id=u.employee_id;
+SELECT e.last_name, e.manager_id , u.last_name from employees e left join employees u on e.manager_id=u.employee_id;
+--44
+select e.last_name, d.department_name from employees e join departments d on e.department_id=d.department_id;
+--45
+select e.last_name, e.salary from employees e where exists (select w.manager_id from employees w where w.manager_id=e.employee_id);
+select distinct manager_id from employees;
+--46
+select e.last_name, round(u.srednia,2),u.liczba from employees e join (select w.department_id, avg(w.salary) srednia, count(*) liczba from employees w group by w.department_id) u 
+on e.department_id=u.department_id
+;
+--47
+select * from employees e  join departments d using (department_id) 
+where d.department_name='Finance' and e.salary> (select avg(salary) from employees);
+--48
+select * from regions;
+select e.last_name , r.region_name from employees e 
+    join departments d on e.department_id=d.department_id 
+    join locations l on d.location_id=l.location_id 
+    join countries c on l.country_id=c.country_id 
+    join regions r on c.region_id=r.region_id
+    ;
+    
+    
+    select * from countries;
+    select * from locations;
+
