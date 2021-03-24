@@ -288,4 +288,52 @@ end loop;
 
 end;
 /
+select count(*) from employees where 1=0;
+desc employees;
+
+select * from employees where employee_id=115 order by salary asc;
+declare 
+id_prac number :=115;
+ilePodw number:=0;
+rPrac employees%rowtype;
+begin 
+select count(*) into ilePodw from employees where manager_id=id_prac;
+select * into rPrac from employees where employee_id = id_prac;
+if  ilePodw>0 then
+DBMS_OUTPUT.PUT_line('Imie: '||rPrac.first_name||' nazwisko: '||rPrac.last_name||' liczba podwladnych: '|| ilePodw);
+elsif rPrac.first_name is null then
+DBMS_OUTPUT.PUT_line('Nie ma takiego pracownika');
+else
+DBMS_OUTPUT.PUT_line('pracownik nie ma Imie: '||rPrac.first_name||' nazwisko: '||rPrac.last_name||' liczba podwladnych: '|| ilePodw);
+null;
+end if;
+end;
+/
+
+--67
+declare 
+id_prac number :=20;
+ilePodw number:=0;
+rPrac employees%rowtype;
+begin 
+select count(*) into ilePodw from employees where manager_id=id_prac;
+select * into rPrac from employees where employee_id = id_prac;
+if  ilePodw=1 then
+    DBMS_OUTPUT.PUT_line('Imie: '||rPrac.first_name||' nazwisko: '||rPrac.last_name||' liczba podwladnych: '|| ilePodw||' -kierownik');
+elsif  ilePodw >2 and  ilePodw<5 then
+    DBMS_OUTPUT.PUT_line('Imie: '||rPrac.first_name||' nazwisko: '||rPrac.last_name||' liczba podwladnych: '|| ilePodw||' -manager');
+elsif  ilePodw >=5  then
+    DBMS_OUTPUT.PUT_line('Imie: '||rPrac.first_name||' nazwisko: '||rPrac.last_name||' liczba podwladnych: '|| ilePodw||' -dyrektor');
+elsif rPrac.first_name is null then
+DBMS_OUTPUT.PUT_line('Nie ma takiego pracownika');
+else
+DBMS_OUTPUT.PUT_line('pracownik nie ma Imie: '||rPrac.first_name||' nazwisko: '||rPrac.last_name||' liczba podwladnych: '|| ilePodw||' pracownik');
+null;
+end if;
+
+exception
+when no_data_found then
+DBMS_OUTPUT.PUT_LINE('Nie ma takiego pracownika');
+end;
+/
 
