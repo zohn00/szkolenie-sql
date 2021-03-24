@@ -337,3 +337,59 @@ DBMS_OUTPUT.PUT_LINE('Nie ma takiego pracownika');
 end;
 /
 
+declare
+srednia number;
+cursor cMojKursor is select * from employees where salary>(select avg(salary) from employees );
+begin
+select avg(salary) into srednia from employees;
+
+for rMojKursor in cMojKursor loop
+    DBMS_OUTPUT.PUT_LINE(rMojKursor.first_name||' ' ||rMojKursor.last_name||' ' ||rMojKursor.salary||' ' ||round(srednia,2));
+end loop;
+end;
+/
+
+declare
+srednia number;
+cursor cMojKursor is select * from employees where salary>srednia;
+begin
+select avg(salary) into srednia from employees;
+
+for rMojKursor in cMojKursor loop
+    DBMS_OUTPUT.PUT_LINE(rMojKursor.first_name||' ' ||rMojKursor.last_name||' ' ||rMojKursor.salary||' ' ||round(srednia,2));
+end loop;
+end;
+/
+
+declare
+srednia number;
+cursor cMojKursor (sr number) is select * from employees where salary>sr;
+begin
+select avg(salary) into srednia from employees;
+
+for rMojKursor in cMojKursor(srednia) loop
+    DBMS_OUTPUT.PUT_LINE(rMojKursor.first_name||' ' ||rMojKursor.last_name||' ' ||rMojKursor.salary||' ' ||round(srednia,2));
+end loop;
+end;
+/
+
+declare
+srednia number;
+cursor cMojKursor (sr number) is select * from employees where salary>sr;
+rCur employees%rowtype;
+begin
+select avg(salary) into srednia from employees;
+
+open cMojKursor(srednia);
+if cMojKursor%found  then
+DBMS_OUTPUT.PUT_LINE('jest otwarty');
+end if;
+loop
+    fetch cMojKursor into rCur;
+    DBMS_OUTPUT.PUT_LINE(rCur.first_name||' ' ||rCur.last_name||' ' ||rCur.salary||' ' ||round(srednia,2));
+    exit when cMojKursor%notfound;
+end loop;
+close cMojKursor;
+end;
+/
+
