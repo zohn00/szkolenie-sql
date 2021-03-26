@@ -393,3 +393,62 @@ close cMojKursor;
 end;
 /
 
+select employee_id from employees;
+
+declare
+idPrac number:=100;
+cursor cPodwladni is 
+    select * from employees where manager_id=idPrac;
+rPodwladni cPodwladni%rowtype;
+begin
+open cPodwladni;
+loop 
+    fetch cPodwladni into rPodwladni;
+        DBMS_OUTPUT.PUT_line(rPodwladni.employee_id);
+    exit when  cPodwladni%notfound;
+end loop;
+close cPodwladni;
+
+if rPodwladni.employee_id is null then
+    DBMS_OUTPUT.PUT_LINE('Nie ma takiego pracownika');
+end if;
+
+
+--exception
+--when no_data_found then
+--DBMS_OUTPUT.PUT_LINE('jest otwarty');
+end;
+/
+select * from departments;
+--70
+declare
+--rDep departments%rowtype;
+type tDep is table of departments%rowtype index by BINARY_INTEGER;
+tabDep tDep;
+cursor cdep is select * from departments;
+begin
+
+for rdep in cdep loop
+    tabDep(cdep%rowcount):=rdep;
+    DBMS_OUTPUT.PUT_LINE(cdep%rowcount);
+end loop;
+end;
+/
+
+declare
+--rDep departments%rowtype;
+type tDep is table of departments%rowtype index by BINARY_INTEGER;
+tabDep tDep;
+cursor cdep is select * from departments;
+begin
+
+open cdep;
+ fetch cdep  bulk collect  into tabDep;
+close cdep;
+
+for i in 1..tabDep.count loop
+    DBMS_OUTPUT.PUT_LINE(tabDep(i).department_id);
+end loop;
+end;
+/
+
