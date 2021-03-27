@@ -452,3 +452,136 @@ end loop;
 end;
 /
 
+--71
+declare
+tmp1 number:=5;
+tmp2 number:=0;
+begin
+    DBMS_OUTPUT.PUT_line(round(tmp1/tmp2));
+EXCEPTION
+WHEN ZERO_divide then
+DBMS_OUTPUT.PUT_LINE('Prubujesz podzieliæ przez 0, a tak nie mo¿na robiæ proszê pana');
+end;
+/
+
+--71
+declare
+mojWyjatek exception;
+tmp1 number:=5;
+tmp2 number:=0;
+begin
+    if tmp2=0 then
+        raise mojWyjatek;
+    end if;
+    DBMS_OUTPUT.PUT_line(round(tmp1/tmp2));
+EXCEPTION
+WHEN mojWyjatek then
+DBMS_OUTPUT.PUT_LINE('Prubujesz podzieliæ przez 0, a tak nie mo¿na robiæ proszê pana');
+end;
+/
+--72
+begin
+for i in -20..40 loop
+    if mod(i,2)=0 then
+        DBMS_OUTPUT.PUT_LINE(i);
+    end if;
+end loop;
+end;
+/
+
+select * from regions;
+
+--73
+create or replace procedure proc73zad(id_regionu number, regionNazwa regions.region_name%type) is
+begin
+insert into regions (region_id, region_name) values (id_regionu,regionNazwa);
+exception
+when dup_val_on_index then
+DBMS_OUTPUT.PUT_LINE('Region o podanym ID juz istnieje podaj inny');
+end;
+/
+
+begin 
+proc73zad(7, 'nowy region');
+end;
+/
+select * from regions;
+
+--74
+create or replace function sredniaZarobkow return number 
+as
+srednia number;
+begin
+select avg(salary) into srednia from employees;
+return srednia;
+end;
+/
+
+select sredniazarobkow from dual;
+
+create or replace function ilePracownikow (id_dzialu number) return number
+as
+ilePrac number;
+begin
+select count(*) into ilePrac from employees where department_id=id_dzialu;
+return ileprac;
+--exception
+--when no_data_found then
+--DBMS_OUTPUT.PUT_LINE(0);
+end;
+/
+
+select ilePracownikow(20) from dual;
+--76
+create or replace procedure proc76zad (srednia out number , maks out number, minFirma out number)
+as
+begin
+select avg(salary), max(salary), min(salary) into srednia, maks, minFirma from employees;
+end;
+/
+
+declare
+srednia number;
+minimumP number;
+maksimum number;
+begin
+proc76zad(srednia,maksimum,minimumP);
+DBMS_OUTPUT.PUT_LINE('Zwrócone przez procedurê wartoœci to: srednia: '||round(srednia)||' , maks:'||maksimum||' , min:'||minimumP);
+end;
+/
+
+--77
+select * from regions;
+create sequence seqRegions
+start WITH 8
+MAXVALUE 9999
+increment by 1
+;
+
+
+alter sequence seqRegions increment by 1;
+select SEQREGIONS.nextval from dual;
+select * from regions;
+
+create or replace procedure proc77zad (nazwaRegionu varchar2) 
+as
+begin
+insert into regions (region_id,region_name) values(SEQREGIONS.nextval, nazwaregionu);
+end;
+/
+
+begin
+proc77zad('Chybice');
+end;
+/
+
+
+
+
+
+
+
+
+
+
+
