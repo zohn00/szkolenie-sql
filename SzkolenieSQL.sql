@@ -575,13 +575,53 @@ proc77zad('Chybice');
 end;
 /
 
+create or replace function funk78zad(maxZ out number, minZ out number, idDzialu number) return number
+as
+sredniaZ number;
+begin
+select max(salary), min(salary) into maxz, minZ  from employees where department_id=iddzialu;
+select avg(salary) into sredniaZ from employees;
+return sredniaZ;
+end;
+/
+
+declare
+minZ number;
+maxZ number;
+srednieZ number;
+begin
+srednieZ:=funk78zad(maxZ,minZ, 20);
+DBMS_OUTPUT.PUT_LINE('Srednia to: '||srednieZ||' natomiast min: '||round(minz)||' a mx to '||round(maxz));
+end;
+/
+
+--80
+select hrmanager.fun80zad from dual;
+--81
+begin
+hrmanager.srednia(20);
+end;
+/
+
+--82 i 83
+begin
+hrmanager.srednia('Executiv',100);
+end;
+/
+--84
+--82
+declare
+mRek hrmanager.mojTypRekordowy;
+begin
+mRek.imie :='Damian';
+mRek.nazwisko:='Orzech';
+hrmanager.proc84zad(mrek);
+end;
+/
 
 
-
-
-
-
-
+select * from employees;
+select * from departments;
 
 
 
